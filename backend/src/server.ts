@@ -5,8 +5,8 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 
-import { globalErrorHandler } from './middlewares/global-error-handler.ts';
-import { config } from './config.ts';
+import { globalErrorHandler } from './middlewares/global-error-handler.js';
+import { config } from './config.js';
 
 // ── Routers ───────────────────────────────────────
 // Sprint 1

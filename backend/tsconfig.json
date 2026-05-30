@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -25,7 +25,6 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "generated"
+    "dist"
   ]
 }

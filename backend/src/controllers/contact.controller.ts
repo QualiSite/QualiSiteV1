@@ -5,7 +5,7 @@ import { prisma } from '../models/client.js';
 // ── Schéma de validation ──────────────────────────
 const contactSchema = z.object({
     name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-    email: z.string().email('Email invalide'),
+    email: z.email('Email invalide'),
     subject: z.string().min(3, 'Le sujet doit contenir au moins 3 caractères'),
     initialMessage: z.string().min(20, 'Le message doit contenir au moins 20 caractères'),
 });
