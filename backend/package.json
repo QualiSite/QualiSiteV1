@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx src/models/seeding.ts",
-    "db:reset": "prisma migrate reset && prisma generate && npm run db:deploy"
+    "db:reset": "prisma migrate reset && prisma generate && npm run db:deploy",
+    "db:migrate": "prisma migrate dev"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +30,7 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.21.0",
-    "prisma": "^6.19.3",
+    "prisma": "^7.8.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
