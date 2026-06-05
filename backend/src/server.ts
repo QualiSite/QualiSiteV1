@@ -13,8 +13,8 @@ import { config } from './config.js';
 import contactRouter from './routers/contact.router.js';
 // Sprint 2
 // import authRouter from './routers/auth.router.js';
-// import projectRouter from './routers/project.router.js';
-// import serviceRouter from './routers/service.router.js';
+import projectRouter from './routers/project.router.js';
+import serviceRouter from './routers/service.router.js';
 // import userRouter from './routers/user.router.js';
 // import leadRouter from './routers/lead.router.js';
 // Sprint 3
@@ -65,8 +65,8 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', contactRouter);
 // Sprint 2
 // app.use('/auth', authRouter);
-// app.use('/api', projectRouter);
-// app.use('/api', serviceRouter);
+app.use('/api', projectRouter);
+app.use('/api', serviceRouter);
 // app.use('/api', userRouter);
 // app.use('/api', leadRouter);
 // Sprint 3
