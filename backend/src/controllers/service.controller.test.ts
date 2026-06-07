@@ -43,7 +43,7 @@ describe('GET /api/services', () => {
         // ASSERT
         expect(response.status).toBe(200);
         expect(response.body).toHaveLength(2);
-        expect(response.body[0].name).toBe('Audit SEO');
+        expect(response.body[0].title).toBe('Audit SEO');
     });
 
     it('should return 200 with empty array when no services exist', async () => {

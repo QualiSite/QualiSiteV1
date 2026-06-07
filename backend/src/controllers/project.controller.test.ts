@@ -55,7 +55,7 @@ describe('GET /api/projects/:id', () => {
     });
 
     it('should return 200 when project exists', async () => {
-        vi.spyOn(prisma.project, 'findUnique').mockResolvedValue(mockProject);
+        vi.spyOn(prisma.project, 'findFirst').mockResolvedValue(mockProject);
 
         const response = await request(app).get(
             `/api/projects/${mockProject.id}`
@@ -66,7 +66,7 @@ describe('GET /api/projects/:id', () => {
     });
 
     it('should return 404 when project does not exist', async () => {
-        vi.spyOn(prisma.project, 'findUnique').mockResolvedValue(null);
+        vi.spyOn(prisma.project, 'findFirst').mockResolvedValue(null);
 
         const response = await request(app).get(
             '/api/projects/550e8400-e29b-41d4-a716-446655440001'

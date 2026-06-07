@@ -9,7 +9,7 @@ const validBody = {
     name: 'Jean Dupont',
     email: 'jean@example.com',
     subject: 'Demande de devis',
-    message: 'Bonjour, je souhaite un devis.',
+    initialMessage: 'Bonjour, je souhaite un devis.',
 };
 
 describe('POST /api/contact', () => {
