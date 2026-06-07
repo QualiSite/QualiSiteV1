@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
+    "dev": "vite",
+    "start": "vite preview",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
