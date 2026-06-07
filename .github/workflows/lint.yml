@@ -1,0 +1,40 @@
+name: Lint
+
+on:
+  push:
+    branches: [main, QualisiteV2]
+  pull_request:
+    branches: [main, QualisiteV2]
+
+jobs:
+  lint-backend:
+    name: Lint Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: QualiSite/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: QualiSite/backend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  lint-frontend:
+    name: Lint Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: QualiSite/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: QualiSite/frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint

@@ -41,7 +41,7 @@ async function main() {
         },
     });
 
-    const service2 = await prisma.service.create({
+    const _service2 = await prisma.service.create({
         data: {
             title: 'Site E-commerce',
             description: 'Une boutique en ligne complète pour vendre vos produits 24h/24.',
@@ -50,7 +50,7 @@ async function main() {
         },
     });
 
-    const service3 = await prisma.service.create({
+    const _service3 = await prisma.service.create({
         data: {
             title: 'Application Web',
             description: 'Une application web sur mesure adaptée à vos besoins métier.',
