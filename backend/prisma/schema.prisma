@@ -36,13 +36,26 @@ model User {
   passwordHash String    @map("password_hash")
   role         UserRole
   isActive     Boolean   @default(true) @map("is_active")
+  verifyToken  String?   @map("verify_token")
   createdAt    DateTime  @default(now()) @map("created_at")
   deletedAt    DateTime? @map("deleted_at")
 
-  projects Project[]
-  client   Client?
+  projects      Project[]
+  client        Client?
+  refreshTokens RefreshToken[]
 
   @@map("user")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  token     String   @unique
+  userId    String   @db.Uuid @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_token")
 }
 
 model Project {

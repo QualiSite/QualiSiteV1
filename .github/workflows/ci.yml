@@ -33,4 +33,7 @@ jobs:
           PORT: 3001
           NODE_ENV: test
           ALLOWED_ORIGINS: http://localhost:5173
+          JWT_SECRET: test_secret_for_ci_only_not_used_in_prod
+          JWT_ACCESS_EXPIRES_IN: 900
+          JWT_REFRESH_EXPIRES_IN: 604800
         run: npm test

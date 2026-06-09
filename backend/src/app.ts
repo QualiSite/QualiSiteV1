@@ -12,7 +12,7 @@ import { config } from './config.js';
 // Sprint 1
 import contactRouter from './routers/contact.router.js';
 // Sprint 2
-// import authRouter from './routers/auth.router.js';
+import authRouter from './routers/auth.router.js';
 import projectRouter from './routers/project.router.js';
 import serviceRouter from './routers/service.router.js';
 // import userRouter from './routers/user.router.js';
@@ -64,7 +64,7 @@ app.use('/uploads', express.static('uploads'));
 // Sprint 1
 app.use('/api', contactRouter);
 // Sprint 2
-// app.use('/auth', authRouter);
+app.use('/auth', authRouter);
 app.use('/api', projectRouter);
 app.use('/api', serviceRouter);
 // app.use('/api', userRouter);
