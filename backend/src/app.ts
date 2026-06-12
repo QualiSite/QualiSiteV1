@@ -8,6 +8,9 @@ import rateLimit from 'express-rate-limit';
 import { globalErrorHandler } from './middlewares/global-error-handler.js';
 import { config } from './config.js';
 
+
+
+
 // ── Routers ───────────────────────────────────────
 // Sprint 1
 import contactRouter from './routers/contact.router.js';
@@ -15,11 +18,20 @@ import contactRouter from './routers/contact.router.js';
 import authRouter from './routers/auth.router.js';
 import projectRouter from './routers/project.router.js';
 import serviceRouter from './routers/service.router.js';
+// Admin
+import projectAdminRouter from './routers/admin/project.admin.router.js';
+import serviceAdminRouter from './routers/admin/service.admin.router.js';
+import contactAdminRouter from './routers/admin/contact.admin.router.js';
+
+
+
 // import userRouter from './routers/user.router.js';
 // import leadRouter from './routers/lead.router.js';
 // Sprint 3
 // import invoiceRouter from './routers/invoice.router.js';
 // import clientRouter from './routers/client.router.js';
+
+
 
 const app = express();
 
@@ -72,6 +84,11 @@ app.use('/api', serviceRouter);
 // Sprint 3
 // app.use('/api', invoiceRouter);
 // app.use('/api', clientRouter);
+
+// Sprint 2 — Admin
+app.use('/api/admin/projects', projectAdminRouter);
+app.use('/api/admin/services', serviceAdminRouter);
+app.use('/api/admin/contacts', contactAdminRouter);
 
 // ── Health check ──────────────────────────────────
 app.get('/', (_req, res) => {
