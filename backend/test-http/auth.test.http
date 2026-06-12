@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3001
+@baseUrl = http://100.78.13.124:3001
 
 ### Register — valide
 POST {{baseUrl}}/auth/register

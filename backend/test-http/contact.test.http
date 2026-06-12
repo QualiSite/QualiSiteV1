@@ -1,5 +1,7 @@
+@baseUrl = http://100.78.13.124:3001
+
 ### Test contact valide
-POST http://localhost:3001/api/contact
+POST {{baseUrl}}/api/contact
 Content-Type: application/json
 
 {
@@ -10,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Test validation — message trop court
-POST http://localhost:3001/api/contact
+POST {{baseUrl}}/api/contact
 Content-Type: application/json
 
 {

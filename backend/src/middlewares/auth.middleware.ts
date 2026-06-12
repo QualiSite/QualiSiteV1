@@ -38,7 +38,7 @@ function extractAccessToken(req: Request): string {
         throw new UnauthorizedError("Vous n'êtes pas autorisé à accéder à cette ressource");
     }
 
-    return authHeader.split(' ')[1];
+    return authHeader.split(' ')[1]!;
 }
 
 // ── Vérifie et décode le JWT ──────────────────────

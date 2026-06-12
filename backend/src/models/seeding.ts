@@ -1,3 +1,4 @@
+import argon2 from 'argon2';
 import { prisma } from '../models/client.js';
 
 async function main() {
@@ -21,11 +22,15 @@ async function main() {
     console.log('🧹 Tables nettoyées');
 
     // ── 2. Admin ──────────────────────────────────────
+   const passwordHash = await argon2.hash('Admin1234');
+
+
     const admin = await prisma.user.create({
         data: {
             email: 'deborah@qualisite.fr',
-            passwordHash: 'placeholder_a_remplacer_sprint2',
+            passwordHash,
             role: 'ADMIN',
+            isActive: true,
         },
     });
 
