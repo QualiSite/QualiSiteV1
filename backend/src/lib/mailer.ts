@@ -32,3 +32,16 @@ export async function sendConfirmationEmail(email: string, name: string) {
         `,
     });
 }
+
+export async function sendAdminReply(email: string, name: string, messageText: string) {
+    await resend.emails.send({
+        from:    config.resendEmail,
+        to:      email,
+        subject: 'Réponse de QualiSite',
+        html: `
+            <h2>Bonjour ${name},</h2>
+            <p>${messageText}</p>
+            <p>L'équipe QualiSite</p>
+        `,
+    });
+}
