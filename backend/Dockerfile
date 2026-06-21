@@ -14,6 +14,7 @@ CMD ["npm", "run", "dev"]
 # ── Production ────────────────────────────────────
 FROM base AS production
 RUN npm ci
+RUN npm rebuild sharp
 COPY . .
 RUN npx prisma generate
 RUN npm run build

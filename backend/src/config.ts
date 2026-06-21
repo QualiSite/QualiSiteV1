@@ -24,6 +24,9 @@ if (!process.env.RESEND_API_KEY) {
 if (!process.env.RESEND_EMAIL) {
     throw new Error('RESEND_EMAIL environment variable is required');
 }
+if (!process.env.UPLOAD_URL) {
+    throw new Error('UPLOAD_URL environment variable is required');
+}
 
 export const config = {
     // Serveur
@@ -42,4 +45,6 @@ export const config = {
     // Sprint 3 — Emails
     resendApiKey: process.env.RESEND_API_KEY!,
     resendEmail: process.env.RESEND_EMAIL!,
+
+    uploadUrl: process.env.UPLOAD_URL!,
 };

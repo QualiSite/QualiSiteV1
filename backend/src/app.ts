@@ -22,6 +22,7 @@ import serviceRouter from './routers/service.router.js';
 import projectAdminRouter from './routers/admin/project.admin.router.js';
 import serviceAdminRouter from './routers/admin/service.admin.router.js';
 import contactAdminRouter from './routers/admin/contact.admin.router.js';
+import imageAdminRouter from './routers/admin/image.admin.router.js';
 
 
 
@@ -89,6 +90,7 @@ app.use('/api', serviceRouter);
 app.use('/api/admin/projects', projectAdminRouter);
 app.use('/api/admin/services', serviceAdminRouter);
 app.use('/api/admin/contacts', contactAdminRouter);
+app.use('/api/admin/projects/:id/images', imageAdminRouter);
 
 // ── Health check ──────────────────────────────────
 app.get('/', (_req, res) => {

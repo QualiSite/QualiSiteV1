@@ -25,10 +25,12 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+      - /mnt/storage/uploads:/app/uploads
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
       - JWT_SECRET=dev_secret_change_in_prod
       - PORT=3001
+      - UPLOAD_URL=https://qualinaturelle.fr/uploads
     depends_on:
       - db
 
