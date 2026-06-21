@@ -19,3 +19,16 @@ export async function sendVerificationEmail(email: string, token: string) {
         `,
     });
 }
+
+export async function sendConfirmationEmail(email: string, name: string) {
+    await resend.emails.send({
+        from:    config.resendEmail,
+        to:      email,
+        subject: 'Nous avons bien reçu votre message — QualiSite',
+        html: `
+            <h2>Bonjour ${name},</h2>
+            <p>Merci pour votre message. Nous l'avons bien reçu et reviendrons vers vous rapidement.</p>
+            <p>L'équipe QualiSite</p>
+        `,
+    });
+}

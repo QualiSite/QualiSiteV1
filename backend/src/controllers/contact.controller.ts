@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { prisma } from '../models/client.js';
+import { sendConfirmationEmail } from '../lib/mailer.js';
 
 // ── Schéma de validation ──────────────────────────
 const contactSchema = z.object({
@@ -22,7 +23,10 @@ export async function createContact(req: Request, res: Response, next: NextFunct
                 subject: data.subject,
                 initialMessage: data.initialMessage,
             },
+            
         });
+
+        await sendConfirmationEmail(contact.email, contact.name);
 
         res.status(201).json({
             message: 'Votre demande a bien été envoyée.',
