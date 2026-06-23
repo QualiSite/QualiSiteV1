@@ -1,0 +1,25 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import "./globals.scss";
+
+const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700", "800"] });
+
+export const metadata: Metadata = {
+  title: "QualiSite — Votre présence digitale sans compromis",
+  description:
+    "QualiSite conçoit des sites internet et applications web sur-mesure pour les entrepreneurs et PME.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="fr">
+      <body className={inter.className}>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
