@@ -1,10 +1,10 @@
-import Hero from "@/components/Hero";
-import Stats from "@/components/Stats";
-import Services from "@/components/Services";
-import Testimonials from "@/components/Testimonials";
+import Hero from "@/components/Hero/Hero";
+import Stats from "@/components/Stats/Stats";
+import Services from "@/components/Services/Services";
+import Testimonials from "@/components/Testimonials/Testimonials";
 
-import Portfolio from "@/components/Portfolio";
-import ContactForm from "@/components/ContactForm";
+import Portfolio from "@/components/PortFolio/Portfolio";
+import ContactForm from "@/components/ContactForm/ContactForm";
 
 export default function HomePage() {
   return (
