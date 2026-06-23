@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { apiPost } from "@/lib/api";
 import styles from "./ContactForm.module.scss";
 
 const projectTypes = [
@@ -12,10 +13,26 @@ const projectTypes = [
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+
+    const form = e.currentTarget;
+    const data = {
+      name:           (form.elements.namedItem("nom") as HTMLInputElement).value,
+      email:          (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject:        (form.elements.namedItem("type") as HTMLSelectElement).value || "Non précisé",
+      initialMessage: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      await apiPost("/api/contact", data);
+      setSubmitted(true);
+    } catch {
+      setError("Une erreur est survenue. Veuillez réessayer.");
+    }
   }
 
   return (
@@ -46,16 +63,16 @@ export default function ContactForm() {
               <div className={styles.row}>
                 <div className={styles.field}>
                   <label htmlFor="nom">NOM *</label>
-                  <input id="nom" type="text" placeholder="Votre nom" required />
+                  <input id="nom" name="nom" type="text" placeholder="Votre nom" required />
                 </div>
                 <div className={styles.field}>
                   <label htmlFor="email">EMAIL *</label>
-                  <input id="email" type="email" placeholder="votre@email.fr" required />
+                  <input id="email" name="email" type="email" placeholder="votre@email.fr" required />
                 </div>
               </div>
               <div className={styles.field}>
                 <label htmlFor="type">TYPE DE PROJET</label>
-                <select id="type">
+                <select id="type" name="type">
                   <option value="">Sélectionnez...</option>
                   {projectTypes.map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -66,11 +83,14 @@ export default function ContactForm() {
                 <label htmlFor="message">MESSAGE *</label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={5}
-                  placeholder="Décrivez votre projet, vos objectifs..."
+                  placeholder="Décrivez votre projet, vos objectifs... (20 caractères minimum)"
                   required
+                  minLength={20}
                 />
               </div>
+              {error && <p className={styles.error}>{error}</p>}
               <p className={styles.rgpd}>
                 🔒 Données traitées conformément au RGPD — jamais revendues.
               </p>
