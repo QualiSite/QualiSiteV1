@@ -5,13 +5,17 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: development
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:3001
     ports:
-      - "5173:5173"
+      - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
+      - /app/.next
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - INTERNAL_API_URL=http://backend:3001
     depends_on:
       - backend
 
@@ -27,10 +31,16 @@ services:
       - /app/node_modules
       - /mnt/storage/uploads:/app/uploads
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
-      - JWT_SECRET=dev_secret_change_in_prod
+      - NODE_ENV=development
       - PORT=3001
-      - UPLOAD_URL=https://qualinaturelle.fr/uploads
+      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
+      - ALLOWED_ORIGINS=http://localhost:3000
+      - JWT_SECRET=dev_secret_change_in_prod
+      - JWT_ACCESS_EXPIRES_IN=900
+      - JWT_REFRESH_EXPIRES_IN=604800
+      - RESEND_API_KEY=changeme
+      - RESEND_EMAIL=contact@qualisite.fr
+      - UPLOAD_URL=http://localhost:3001/uploads
     depends_on:
       - db
 
