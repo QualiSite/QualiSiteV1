@@ -8,9 +8,6 @@ import rateLimit from 'express-rate-limit';
 import { globalErrorHandler } from './middlewares/global-error-handler.js';
 import { config } from './config.js';
 
-
-
-
 // ── Routers ───────────────────────────────────────
 // Sprint 1
 import contactRouter from './routers/contact.router.js';
@@ -25,14 +22,11 @@ import contactAdminRouter from './routers/admin/contact.admin.router.js';
 import imageAdminRouter from './routers/admin/image.admin.router.js';
 import clientAdminRouter from './routers/admin/client.admin.router.js';
 
-
 // import userRouter from './routers/user.router.js';
 // import leadRouter from './routers/lead.router.js';
 // Sprint 3
 // import invoiceRouter from './routers/invoice.router.js';
 // import clientRouter from './routers/client.router.js';
-
-
 
 const app = express();
 
@@ -40,26 +34,23 @@ app.set('trust proxy', 1);
 
 // ── Rate limiting ─────────────────────────────────
 const globalLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 1000,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: { message: 'Trop de requêtes, veuillez réessayer plus tard.' },
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Trop de requêtes, veuillez réessayer plus tard.' },
 });
 
 // ── CORS ──────────────────────────────────────────
 const corsOptions = {
-    origin: (
-        origin: string | undefined,
-        callback: (err: Error | null, allow?: boolean) => void
-    ) => {
-        if (!origin) return callback(null, true);
-        if (config.allowedOrigins.includes(origin)) return callback(null, true);
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
-    },
-    credentials: true,
-    allowedHeaders: ['Authorization', 'Content-Type'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin) return callback(null, true);
+    if (config.allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
+  credentials: true,
+  allowedHeaders: ['Authorization', 'Content-Type'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 };
 
 // ── Middlewares globaux ───────────────────────────
@@ -100,7 +91,7 @@ app.use('/api/admin/clients', clientAdminRouter);
 
 // ── Health check ──────────────────────────────────
 app.get('/', (_req, res) => {
-    res.json({ message: 'QualiSite API — opérationnelle' });
+  res.json({ message: 'QualiSite API — opérationnelle' });
 });
 
 // ── Gestionnaire d'erreurs global ─────────────────

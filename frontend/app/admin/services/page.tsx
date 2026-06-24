@@ -20,7 +20,13 @@ export default function ServicesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState({ title: "", description: "", price: "", order: "", iconUrl: "" });
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    price: "",
+    order: "",
+    iconUrl: "",
+  });
 
   useEffect(() => {
     if (!accessToken) return;
@@ -38,11 +44,11 @@ export default function ServicesPage() {
   function openEdit(s: Service) {
     setEditingId(s.id);
     setForm({
-      title:       s.title,
+      title: s.title,
       description: s.description ?? "",
-      price:       s.price.toString(),
-      order:       s.order.toString(),
-      iconUrl:     s.iconUrl ?? "",
+      price: s.price.toString(),
+      order: s.order.toString(),
+      iconUrl: s.iconUrl ?? "",
     });
     setShowForm(true);
   }
@@ -51,15 +57,19 @@ export default function ServicesPage() {
     e.preventDefault();
     if (!accessToken) return;
     const body = {
-      title:       form.title,
-      price:       parseFloat(form.price),
+      title: form.title,
+      price: parseFloat(form.price),
       description: form.description || undefined,
-      iconUrl:     form.iconUrl || undefined,
-      order:       form.order ? parseInt(form.order) : undefined,
+      iconUrl: form.iconUrl || undefined,
+      order: form.order ? parseInt(form.order) : undefined,
     };
     try {
       if (editingId) {
-        const updated = await apiAuthPatch<Service>(`/api/admin/services/${editingId}`, accessToken, body);
+        const updated = await apiAuthPatch<Service>(
+          `/api/admin/services/${editingId}`,
+          accessToken,
+          body
+        );
         setServices((prev) => prev.map((s) => (s.id === editingId ? { ...s, ...updated } : s)));
       } else {
         const created = await apiAuthPost<Service>("/api/admin/services", accessToken, body);
@@ -86,10 +96,14 @@ export default function ServicesPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <Link href="/admin" className={styles.back}>← Dashboard</Link>
+          <Link href="/admin" className={styles.back}>
+            ← Dashboard
+          </Link>
           <h1>Services</h1>
         </div>
-        <button className={styles.btnCreate} onClick={openCreate}>+ Nouveau service</button>
+        <button className={styles.btnCreate} onClick={openCreate}>
+          + Nouveau service
+        </button>
       </div>
 
       {showForm && (
@@ -98,28 +112,57 @@ export default function ServicesPage() {
           <div className={styles.formGrid}>
             <div className={styles.field}>
               <label>Titre *</label>
-              <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+              <input
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                required
+              />
             </div>
             <div className={styles.field}>
               <label>Prix (€) *</label>
-              <input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required min="0" step="0.01" />
+              <input
+                type="number"
+                value={form.price}
+                onChange={(e) => setForm({ ...form, price: e.target.value })}
+                required
+                min="0"
+                step="0.01"
+              />
             </div>
             <div className={styles.field}>
-              <label>Ordre d'affichage</label>
-              <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: e.target.value })} placeholder="1" min="0" />
+              <label>Ordre d&apos;affichage</label>
+              <input
+                type="number"
+                value={form.order}
+                onChange={(e) => setForm({ ...form, order: e.target.value })}
+                placeholder="1"
+                min="0"
+              />
             </div>
             <div className={styles.field}>
-              <label>URL de l'icône</label>
-              <input value={form.iconUrl} onChange={(e) => setForm({ ...form, iconUrl: e.target.value })} placeholder="https://..." />
+              <label>URL de l&apos;icône</label>
+              <input
+                value={form.iconUrl}
+                onChange={(e) => setForm({ ...form, iconUrl: e.target.value })}
+                placeholder="https://..."
+              />
             </div>
             <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
               <label>Description</label>
-              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} />
+              <textarea
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                rows={3}
+              />
             </div>
           </div>
           <div className={styles.formActions}>
-            <button type="submit" className={styles.btnSave}>Sauvegarder</button>
-            <button type="button" className={styles.btnCancel} onClick={() => setShowForm(false)}>Annuler</button>
+            <button type="submit" className={styles.btnSave}>
+              Sauvegarder
+            </button>
+            <button type="button" className={styles.btnCancel} onClick={() => setShowForm(false)}>
+              Annuler
+            </button>
           </div>
         </form>
       )}
@@ -142,8 +185,12 @@ export default function ServicesPage() {
               <span className={styles.desc}>{s.description ?? "—"}</span>
               <span className={styles.price}>{s.price.toLocaleString("fr-FR")} €</span>
               <div className={styles.actions}>
-                <button className={styles.btnEdit} onClick={() => openEdit(s)}>Modifier</button>
-                <button className={styles.btnDelete} onClick={() => handleDelete(s.id)}>Supprimer</button>
+                <button className={styles.btnEdit} onClick={() => openEdit(s)}>
+                  Modifier
+                </button>
+                <button className={styles.btnDelete} onClick={() => handleDelete(s.id)}>
+                  Supprimer
+                </button>
               </div>
             </div>
           ))}

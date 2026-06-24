@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { apiAuthGet, apiAuthPost, apiAuthPatch, apiAuthDelete } from "@/lib/api";
 import styles from "./page.module.scss";
+import Image from "next/image";
 
 interface ProjectImage {
   imageId: string;
@@ -29,7 +30,7 @@ export default function ProjectsPage() {
   const [form, setForm] = useState({ title: "", summary: "", year: "" });
   const [openImagesId, setOpenImagesId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [pendingFiles, setPendingFiles] = useState<File[]>([]);  // ← nouveau
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -41,7 +42,7 @@ export default function ProjectsPage() {
   function openCreate() {
     setEditingId(null);
     setForm({ title: "", summary: "", year: "" });
-    setPendingFiles([]);  // ← reset les fichiers en attente
+    setPendingFiles([]); // ← reset les fichiers en attente
     setShowForm(true);
   }
 
@@ -62,13 +63,17 @@ export default function ProjectsPage() {
     };
     try {
       if (editingId) {
-        const updated = await apiAuthPatch<Project>(`/api/admin/projects/${editingId}`, accessToken, body);
+        const updated = await apiAuthPatch<Project>(
+          `/api/admin/projects/${editingId}`,
+          accessToken,
+          body
+        );
         setProjects((prev) => prev.map((p) => (p.id === editingId ? { ...p, ...updated } : p)));
         setShowForm(false);
       } else {
         // 1. Créer le projet
         const created = await apiAuthPost<Project>("/api/admin/projects", accessToken, body);
-        let images: ProjectImage[] = [];
+        const images: ProjectImage[] = [];
 
         // 2. Uploader les images sélectionnées une par une
         if (pendingFiles.length > 0) {
@@ -108,9 +113,17 @@ export default function ProjectsPage() {
   async function handleTogglePublish(id: string) {
     if (!accessToken) return;
     try {
-      const res = await apiAuthPatch<{ isPublished: boolean }>(`/api/admin/projects/${id}/publish`, accessToken, {});
-      setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, isPublished: res.isPublished } : p)));
-    } catch { alert("Erreur"); }
+      const res = await apiAuthPatch<{ isPublished: boolean }>(
+        `/api/admin/projects/${id}/publish`,
+        accessToken,
+        {}
+      );
+      setProjects((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, isPublished: res.isPublished } : p))
+      );
+    } catch {
+      alert("Erreur");
+    }
   }
 
   async function handleDelete(id: string) {
@@ -119,7 +132,9 @@ export default function ProjectsPage() {
     try {
       await apiAuthDelete(`/api/admin/projects/${id}`, accessToken);
       setProjects((prev) => prev.filter((p) => p.id !== id));
-    } catch { alert("Erreur lors de la suppression"); }
+    } catch {
+      alert("Erreur lors de la suppression");
+    }
   }
 
   async function handleUploadImage(projectId: string, e: React.ChangeEvent<HTMLInputElement>) {
@@ -140,27 +155,49 @@ export default function ProjectsPage() {
       setProjects((prev) =>
         prev.map((p) =>
           p.id === projectId
-            ? { ...p, images: [...p.images, { imageId: newImage.id, isCover: newImage.isCover, image: { imageUrl: newImage.imageUrl, altText: newImage.altText } }] }
+            ? {
+                ...p,
+                images: [
+                  ...p.images,
+                  {
+                    imageId: newImage.id,
+                    isCover: newImage.isCover,
+                    image: { imageUrl: newImage.imageUrl, altText: newImage.altText },
+                  },
+                ],
+              }
             : p
         )
       );
       e.target.value = "";
-    } catch { alert("Erreur lors de l'upload"); }
-    finally { setUploading(false); }
+    } catch {
+      alert("Erreur lors de l'upload");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleSetCover(projectId: string, imageId: string) {
     if (!accessToken) return;
     try {
-      await apiAuthPatch(`/api/admin/projects/${projectId}/images/${imageId}/cover`, accessToken, {});
+      await apiAuthPatch(
+        `/api/admin/projects/${projectId}/images/${imageId}/cover`,
+        accessToken,
+        {}
+      );
       setProjects((prev) =>
         prev.map((p) =>
           p.id === projectId
-            ? { ...p, images: p.images.map((img) => ({ ...img, isCover: img.imageId === imageId })) }
+            ? {
+                ...p,
+                images: p.images.map((img) => ({ ...img, isCover: img.imageId === imageId })),
+              }
             : p
         )
       );
-    } catch { alert("Erreur"); }
+    } catch {
+      alert("Erreur");
+    }
   }
 
   async function handleDeleteImage(projectId: string, imageId: string) {
@@ -170,20 +207,28 @@ export default function ProjectsPage() {
       await apiAuthDelete(`/api/admin/projects/${projectId}/images/${imageId}`, accessToken);
       setProjects((prev) =>
         prev.map((p) =>
-          p.id === projectId ? { ...p, images: p.images.filter((img) => img.imageId !== imageId) } : p
+          p.id === projectId
+            ? { ...p, images: p.images.filter((img) => img.imageId !== imageId) }
+            : p
         )
       );
-    } catch { alert("Erreur lors de la suppression"); }
+    } catch {
+      alert("Erreur lors de la suppression");
+    }
   }
 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <Link href="/admin" className={styles.back}>← Dashboard</Link>
+          <Link href="/admin" className={styles.back}>
+            ← Dashboard
+          </Link>
           <h1>Projets</h1>
         </div>
-        <button className={styles.btnCreate} onClick={openCreate}>+ Nouveau projet</button>
+        <button className={styles.btnCreate} onClick={openCreate}>
+          + Nouveau projet
+        </button>
       </div>
 
       {showForm && (
@@ -192,15 +237,28 @@ export default function ProjectsPage() {
           <div className={styles.formGrid}>
             <div className={styles.field}>
               <label>Titre *</label>
-              <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+              <input
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                required
+              />
             </div>
             <div className={styles.field}>
               <label>Année</label>
-              <input type="number" value={form.year} onChange={(e) => setForm({ ...form, year: e.target.value })} placeholder="2025" />
+              <input
+                type="number"
+                value={form.year}
+                onChange={(e) => setForm({ ...form, year: e.target.value })}
+                placeholder="2025"
+              />
             </div>
             <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
               <label>Résumé</label>
-              <textarea value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} rows={3} />
+              <textarea
+                value={form.summary}
+                onChange={(e) => setForm({ ...form, summary: e.target.value })}
+                rows={3}
+              />
             </div>
             {/* Champ images uniquement à la création */}
             {!editingId && (
@@ -224,7 +282,9 @@ export default function ProjectsPage() {
             <button type="submit" className={styles.btnSave} disabled={uploading}>
               {uploading ? "Upload en cours..." : "Sauvegarder"}
             </button>
-            <button type="button" className={styles.btnCancel} onClick={() => setShowForm(false)}>Annuler</button>
+            <button type="button" className={styles.btnCancel} onClick={() => setShowForm(false)}>
+              Annuler
+            </button>
           </div>
         </form>
       )}
@@ -253,11 +313,18 @@ export default function ProjectsPage() {
                   {p.isPublished ? "Publié" : "Brouillon"}
                 </button>
                 <div className={styles.actions}>
-                  <button className={styles.btnImages} onClick={() => setOpenImagesId(openImagesId === p.id ? null : p.id)}>
+                  <button
+                    className={styles.btnImages}
+                    onClick={() => setOpenImagesId(openImagesId === p.id ? null : p.id)}
+                  >
                     🖼 {p.images.length}
                   </button>
-                  <button className={styles.btnEdit} onClick={() => openEdit(p)}>Modifier</button>
-                  <button className={styles.btnDelete} onClick={() => handleDelete(p.id)}>Supprimer</button>
+                  <button className={styles.btnEdit} onClick={() => openEdit(p)}>
+                    Modifier
+                  </button>
+                  <button className={styles.btnDelete} onClick={() => handleDelete(p.id)}>
+                    Supprimer
+                  </button>
                 </div>
               </div>
 
@@ -266,19 +333,36 @@ export default function ProjectsPage() {
                   <div className={styles.imagePanelGrid}>
                     {p.images.map((img) => (
                       <div key={img.imageId} className={styles.imageCard}>
-                        <img src={img.image.imageUrl} alt={img.image.altText ?? ""} />
+                        <Image
+                          src={img.image.imageUrl}
+                          alt={img.image.altText ?? ""}
+                          width={200}
+                          height={150}
+                        />
                         {img.isCover && <span className={styles.coverBadge}>Couverture</span>}
                         <div className={styles.imageActions}>
                           {!img.isCover && (
-                            <button onClick={() => handleSetCover(p.id, img.imageId)}>Définir couverture</button>
+                            <button onClick={() => handleSetCover(p.id, img.imageId)}>
+                              Définir couverture
+                            </button>
                           )}
-                          <button className={styles.imgDelete} onClick={() => handleDeleteImage(p.id, img.imageId)}>✕</button>
+                          <button
+                            className={styles.imgDelete}
+                            onClick={() => handleDeleteImage(p.id, img.imageId)}
+                          >
+                            ✕
+                          </button>
                         </div>
                       </div>
                     ))}
                     <label className={styles.uploadZone}>
                       {uploading ? "Upload..." : "+ Ajouter une image"}
-                      <input type="file" accept="image/*" onChange={(e) => handleUploadImage(p.id, e)} hidden />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleUploadImage(p.id, e)}
+                        hidden
+                      />
                     </label>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export function middleware(req: NextRequest) {
+export function middleware( ) {
   // Le middleware laisse tout passer.
   // La protection est gérée côté client dans app/admin/layout.tsx
   return NextResponse.next();

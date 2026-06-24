@@ -2,21 +2,22 @@
 import { useState } from "react";
 import { Project } from "@/lib/types";
 import styles from "./Portfolio.module.scss";
+import Image from "next/image";
 
 type Category = "Tous" | string;
 
 export default function PortfolioClient({ projects }: { projects: Project[] }) {
-  const categories = ["Tous", ...Array.from(new Set(
-    projects.flatMap((p) => p.services.map((s) => s.service.title))
-  ))];
+  const categories = [
+    "Tous",
+    ...Array.from(new Set(projects.flatMap((p) => p.services.map((s) => s.service.title)))),
+  ];
 
   const [active, setActive] = useState<Category>("Tous");
 
-  const visible = active === "Tous"
-    ? projects
-    : projects.filter((p) =>
-        p.services.some((s) => s.service.title === active)
-      );
+  const visible =
+    active === "Tous"
+      ? projects
+      : projects.filter((p) => p.services.some((s) => s.service.title === active));
 
   return (
     <>
@@ -36,10 +37,12 @@ export default function PortfolioClient({ projects }: { projects: Project[] }) {
         {visible.map((p) => (
           <div key={p.id} className={styles.card}>
             {p.images[0] ? (
-              <img
+              <Image
                 src={p.images[0].image.imageUrl}
                 alt={p.images[0].image.altText ?? p.title}
                 className={styles.cover}
+                width={400}
+                height={300}
               />
             ) : (
               <div className={styles.placeholder} />

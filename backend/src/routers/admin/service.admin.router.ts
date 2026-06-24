@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import {
-    getAdminServices,
-    createService,
-    updateService,
-    deleteService,
+  getAdminServices,
+  createService,
+  updateService,
+  deleteService,
 } from '../../controllers/admin/service.admin.controller.js';
 
 import { verifyToken, checkRoles } from '../../middlewares/auth.middleware.js';

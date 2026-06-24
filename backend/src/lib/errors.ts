@@ -1,39 +1,39 @@
 export class HttpClientError extends Error {
-    status: number;
-    name: string;
+  status: number;
+  name: string;
 
-    constructor(message: string, { status }: { status: number }) {
-        super(message);
-        this.name = this.constructor.name; // Petit bonus pour retrouver le nom de la classe depuis le contructor
-        this.status = status;
-    }
+  constructor(message: string, { status }: { status: number }) {
+    super(message);
+    this.name = this.constructor.name; // Petit bonus pour retrouver le nom de la classe depuis le contructor
+    this.status = status;
+  }
 }
 export class BadRequestError extends HttpClientError {
-    constructor(message: string) {
-        super(message, { status: 400 });
-    }
+  constructor(message: string) {
+    super(message, { status: 400 });
+  }
 }
 
 export class UnauthorizedError extends HttpClientError {
-    constructor(message: string) {
-        super(message, { status: 401 });
-    }
+  constructor(message: string) {
+    super(message, { status: 401 });
+  }
 }
 
 export class ForbiddenError extends HttpClientError {
-    constructor(message: string) {
-        super(message, { status: 403 });
-    }
+  constructor(message: string) {
+    super(message, { status: 403 });
+  }
 }
 
 export class NotFoundError extends HttpClientError {
-    constructor(message: string) {
-        super(message, { status: 404 });
-    }
+  constructor(message: string) {
+    super(message, { status: 404 });
+  }
 }
 
 export class ConflictError extends HttpClientError {
-    constructor(message: string) {
-        super(message, { status: 409 });
-    }
+  constructor(message: string) {
+    super(message, { status: 409 });
+  }
 }

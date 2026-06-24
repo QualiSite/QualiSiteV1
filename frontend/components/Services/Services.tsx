@@ -3,9 +3,9 @@ import { Service } from "@/lib/types";
 import styles from "./Services.module.scss";
 
 const icons: Record<string, string> = {
-  "Sites Vitrine":      "🖥️",
-  "Applications Web":  "⚙️",
-  "E-commerce":        "🛒",
+  "Sites Vitrine": "🖥️",
+  "Applications Web": "⚙️",
+  "E-commerce": "🛒",
   "SEO & Référencement": "📈",
 };
 
@@ -24,7 +24,9 @@ export default async function Services() {
             <span className={styles.icon}>{icons[s.title] ?? "🔧"}</span>
             <h3>{s.title}</h3>
             <p>{s.description}</p>
-            <a href="#contact" className={styles.link}>En savoir plus →</a>
+            <a href="#contact" className={styles.link}>
+              En savoir plus →
+            </a>
           </div>
         ))}
       </div>

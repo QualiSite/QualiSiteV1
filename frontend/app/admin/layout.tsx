@@ -21,7 +21,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (isLoading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#1C0F06" }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#1C0F06",
+        }}
+      >
         <p style={{ color: "#FFFAF6" }}>Chargement...</p>
       </div>
     );

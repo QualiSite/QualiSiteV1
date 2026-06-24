@@ -21,9 +21,9 @@ export default function ContactForm() {
 
     const form = e.currentTarget;
     const data = {
-      name:           (form.elements.namedItem("nom") as HTMLInputElement).value,
-      email:          (form.elements.namedItem("email") as HTMLInputElement).value,
-      subject:        (form.elements.namedItem("type") as HTMLSelectElement).value || "Non précisé",
+      name: (form.elements.namedItem("nom") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("type") as HTMLSelectElement).value || "Non précisé",
       initialMessage: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
     };
 
@@ -38,13 +38,12 @@ export default function ContactForm() {
   return (
     <section className={styles.section} id="contact">
       <div className={styles.inner}>
-
         <div className={styles.info}>
           <p className={styles.label}>CONTACT</p>
           <h2>Parlons de votre projet</h2>
           <p className={styles.subtitle}>
-            Un projet web en tête ? Décrivez-le nous et nous vous recontactons
-            sous 24h avec une estimation personnalisée et gratuite.
+            Un projet web en tête ? Décrivez-le nous et nous vous recontactons sous 24h avec une
+            estimation personnalisée et gratuite.
           </p>
           <ul className={styles.details}>
             <li>📍 France (remote) / Montréal</li>
@@ -67,7 +66,13 @@ export default function ContactForm() {
                 </div>
                 <div className={styles.field}>
                   <label htmlFor="email">EMAIL *</label>
-                  <input id="email" name="email" type="email" placeholder="votre@email.fr" required />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="votre@email.fr"
+                    required
+                  />
                 </div>
               </div>
               <div className={styles.field}>
@@ -75,7 +80,9 @@ export default function ContactForm() {
                 <select id="type" name="type">
                   <option value="">Sélectionnez...</option>
                   {projectTypes.map((t) => (
-                    <option key={t} value={t}>{t}</option>
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -100,7 +107,6 @@ export default function ContactForm() {
             </form>
           )}
         </div>
-
       </div>
     </section>
   );
