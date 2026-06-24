@@ -35,7 +35,15 @@ export default function PortfolioClient({ projects }: { projects: Project[] }) {
       <div className={styles.grid}>
         {visible.map((p) => (
           <div key={p.id} className={styles.card}>
-            <div className={styles.placeholder} />
+            {p.images[0] ? (
+              <img
+                src={p.images[0].image.imageUrl}
+                alt={p.images[0].image.altText ?? p.title}
+                className={styles.cover}
+              />
+            ) : (
+              <div className={styles.placeholder} />
+            )}
             <div className={styles.info}>
               <span className={styles.category}>
                 {p.services.map((s) => s.service.title).join(", ")}

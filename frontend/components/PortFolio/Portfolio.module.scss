@@ -92,3 +92,10 @@
   font-size: 1rem;
   color: var(--ink);
 }
+
+.cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}

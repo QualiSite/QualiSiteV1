@@ -71,6 +71,11 @@ app.use(xss());
 app.use(globalLimiter);
 
 // ── Fichiers statiques (uploads images portfolio) ─
+
+app.use('/uploads', (_req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+});
 app.use('/uploads', express.static('uploads'));
 
 // ── Routes ────────────────────────────────────────
