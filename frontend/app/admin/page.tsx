@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 
 export default function AdminPage() {
@@ -26,9 +27,9 @@ export default function AdminPage() {
             { label: "Projets", href: "/admin/projects" },
             { label: "Services", href: "/admin/services" },
           ].map((item) => (
-            <a key={item.href} href={item.href} style={{ background: "white", border: "1px solid var(--border)", borderRadius: "12px", padding: "2rem", textAlign: "center", color: "var(--ink)", fontWeight: 700, fontSize: "1.1rem", textDecoration: "none" }}>
+            <Link key={item.href} href={item.href} style={{ background: "white", border: "1px solid var(--border)", borderRadius: "12px", padding: "2rem", textAlign: "center", color: "var(--ink)", fontWeight: 700, fontSize: "1.1rem", textDecoration: "none" }}>
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
       </div>
