@@ -58,3 +58,18 @@
 @media (max-width: 768px) {
   .nav { display: none; }
 }
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.adminLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  &:hover { opacity: 1; color: var(--ink); }
+}

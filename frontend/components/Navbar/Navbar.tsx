@@ -17,8 +17,10 @@ export default function Navbar() {
           <Link href="#contact">Contact</Link>
         </nav>
 
-        <Link href="#contact" className={styles.cta}>Devis gratuit</Link>
-      </div>
+        <div className={styles.right}>
+          <Link href="/admin" className={styles.adminLink}>Admin</Link>
+          <Link href="#contact" className={styles.cta}>Devis gratuit</Link>
+        </div>      </div>
     </header>
   );
 }
