@@ -149,6 +149,39 @@ QualiSite/
 
 ---
 
+## Déploiement sur Raspberry Pi (production)
+
+Le site est hébergé sur un Raspberry Pi 5 exposé via un tunnel Cloudflare (sans port ouvert ni IP publique).
+
+**URL publique :** https://qualisite.alithiel31.dev
+
+### Architecture
+
+```
+Internet → Cloudflare Tunnel → qualisite-frontend (port 3000)
+```
+
+### Prérequis sur le RPi
+
+- Docker + Docker Compose installés
+- `cloudflared` installé et authentifié (`cloudflared login`)
+
+### Mise à jour de l'image
+
+```bash
+# Rebuilder et relancer sur le RPi
+docker compose up --build -d
+```
+
+### Tunnel Cloudflare (`~/.cloudflared/config.yml`)
+
+```yaml
+- hostname: qualisite.alithiel31.dev
+  service: http://localhost:3000
+```
+
+---
+
 ## Stack
 
 | Couche | Technologie |
@@ -161,7 +194,8 @@ QualiSite/
 | Upload / Images | Multer · Sharp |
 | Tests | Vitest |
 | Qualité code | ESLint · Prettier · Husky (pre-commit) |
-| Infra | Docker · Docker Compose |
+| Infra | Docker · Docker Compose · Raspberry Pi 5 |
+| Exposition | Cloudflare Tunnel (cloudflared) |
 | CI/CD | GitHub Actions |
 
 ---
