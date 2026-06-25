@@ -8,6 +8,7 @@ FROM base AS development
 RUN npm install
 COPY . .
 RUN npx prisma generate
+RUN touch .env
 EXPOSE 3001
 CMD ["npm", "run", "dev"]
 

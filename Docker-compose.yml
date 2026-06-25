@@ -9,15 +9,19 @@ services:
         - NEXT_PUBLIC_API_URL=http://localhost:3001
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3001
       - INTERNAL_API_URL=http://backend:3001
     depends_on:
       - backend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules
+            - .next
 
   backend:
     build:
@@ -26,34 +30,15 @@ services:
       target: development
     ports:
       - "3001:3001"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-      - /mnt/storage/uploads:/app/uploads
-    environment:
-      - NODE_ENV=development
-      - PORT=3001
-      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
-      - ALLOWED_ORIGINS=http://localhost:3000
-      - JWT_SECRET=dev_secret_change_in_prod
-      - JWT_ACCESS_EXPIRES_IN=900
-      - JWT_REFRESH_EXPIRES_IN=604800
-      - RESEND_API_KEY=changeme
-      - RESEND_EMAIL=contact@qualisite.fr
-      - UPLOAD_URL=http://localhost:3001/uploads
-    depends_on:
-      - db
+    env_file:
+      - ./backend/.env
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app
+          ignore:
+            - node_modules
+            - uploads
 
-  db:
-    image: postgres:16-alpine
-    ports:
-      - "5435:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=qualisite
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+volumes: {}
