@@ -38,4 +38,5 @@ jobs:
           JWT_REFRESH_EXPIRES_IN: 604800
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_EMAIL: test@example.com
+          UPLOAD_URL: http://localhost:3001/uploads
         run: npm test
