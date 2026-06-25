@@ -16,7 +16,8 @@
     "db:reset": "prisma migrate reset && prisma generate && npm run db:deploy",
     "db:migrate": "prisma migrate dev",
     "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "",
