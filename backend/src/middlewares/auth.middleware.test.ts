@@ -9,11 +9,10 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 
 // Génère un vrai token signé avec notre secret
 function makeToken(role: string) {
-  return jwt.sign(
-    { userId: '550e8400-e29b-41d4-a716-446655440000', role },
-    JWT_SECRET,
-    { audience: 'access', expiresIn: 3600 }
-  );
+  return jwt.sign({ userId: '550e8400-e29b-41d4-a716-446655440000', role }, JWT_SECRET, {
+    audience: 'access',
+    expiresIn: 3600,
+  });
 }
 
 describe('Auth Middleware — routes admin protégées', () => {

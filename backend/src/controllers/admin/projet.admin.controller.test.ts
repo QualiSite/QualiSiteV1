@@ -7,11 +7,10 @@ import { prisma } from '../../models/client.js';
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 function makeAdminToken() {
-  return jwt.sign(
-    { userId: '550e8400-e29b-41d4-a716-446655440000', role: 'ADMIN' },
-    JWT_SECRET,
-    { audience: 'access', expiresIn: 3600 }
-  );
+  return jwt.sign({ userId: '550e8400-e29b-41d4-a716-446655440000', role: 'ADMIN' }, JWT_SECRET, {
+    audience: 'access',
+    expiresIn: 3600,
+  });
 }
 
 const mockProject = {
