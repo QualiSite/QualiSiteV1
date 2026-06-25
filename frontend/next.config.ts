@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
+  allowedDevOrigins: ["caesura", "100.109.50.124"],
   images: {
     remotePatterns: [
       { protocol: "http", hostname: "localhost" },

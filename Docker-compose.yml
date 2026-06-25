@@ -10,8 +10,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_API_URL=http://caesura:3001
       - INTERNAL_API_URL=http://backend:3001
+    command: ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"]
     depends_on:
       - backend
     develop:
@@ -32,6 +33,11 @@ services:
       - "3001:3001"
     env_file:
       - ./backend/.env
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
+      - ALLOWED_ORIGINS=http://localhost:3000,http://caesura:3000
+    depends_on:
+      - db
     develop:
       watch:
         - action: sync
@@ -41,4 +47,16 @@ services:
             - node_modules
             - uploads
 
-volumes: {}
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=qualisite
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

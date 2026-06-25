@@ -1,9 +1,13 @@
-// backend/src/middlewares/auth.middleware.test.ts
-
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import app from '../app.js';
+
+vi.mock('../models/client.js', () => ({
+  prisma: {
+    project: { findMany: vi.fn().mockResolvedValue([]) },
+  },
+}));
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -32,7 +36,7 @@ describe('Auth Middleware — routes admin protégées', () => {
     const expired = jwt.sign(
       { userId: '550e8400-e29b-41d4-a716-446655440000', role: 'ADMIN' },
       JWT_SECRET,
-      { audience: 'access', expiresIn: -1 } // déjà expiré
+      { audience: 'access', expiresIn: -1 }
     );
     const response = await request(app)
       .get('/api/admin/projects')
@@ -50,8 +54,6 @@ describe('Auth Middleware — routes admin protégées', () => {
 
   it('should pass through when token is valid ADMIN', async () => {
     const token = makeToken('ADMIN');
-    // On ne mock pas Prisma ici → la DB va échouer mais ce n'est pas ce qu'on teste
-    // On vérifie juste que le middleware laisse passer (pas de 401/403)
     const response = await request(app)
       .get('/api/admin/projects')
       .set('Authorization', `Bearer ${token}`);
