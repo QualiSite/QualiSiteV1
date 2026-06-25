@@ -26,7 +26,15 @@ jobs:
         working-directory: backend
         run: npm ci
 
-      - name: Run tests
+      - name: Generate Prisma client
+        working-directory: backend
+        run: npx prisma generate
+
+      - name: Type check
+        working-directory: backend
+        run: npm run build
+
+      - name: Run tests with coverage
         working-directory: backend
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/qualisite
@@ -39,4 +47,4 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_EMAIL: test@example.com
           UPLOAD_URL: http://localhost:3001/uploads
-        run: npm test
+        run: npm run test:coverage
