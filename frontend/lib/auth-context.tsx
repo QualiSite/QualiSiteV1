@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:3001";
+const API = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 // ── Types ─────────────────────────────────────────
 

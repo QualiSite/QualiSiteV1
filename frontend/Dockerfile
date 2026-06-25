@@ -23,6 +23,10 @@ COPY . .
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
+# URL interne du backend (pour les rewrites Next.js)
+ARG INTERNAL_API_URL=http://localhost:3001
+ENV INTERNAL_API_URL=$INTERNAL_API_URL
+
 RUN npm run build
 
 # ── Production ────────────────────────────────────
