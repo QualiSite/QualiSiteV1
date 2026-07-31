@@ -1,0 +1,23 @@
+# ── Base commune ──────────────────────────────────
+FROM node:24-alpine AS base
+WORKDIR /app
+COPY package*.json ./
+
+# ── Développement ─────────────────────────────────
+FROM base AS development
+RUN npm install
+COPY . .
+RUN npx prisma generate
+RUN touch .env
+EXPOSE 3001
+CMD ["npm", "run", "dev"]
+
+# ── Production ────────────────────────────────────
+FROM base AS production
+RUN npm ci
+RUN npm rebuild sharp
+COPY . .
+RUN npx prisma generate
+RUN npm run build
+EXPOSE 3001
+CMD ["npm", "run", "start"]

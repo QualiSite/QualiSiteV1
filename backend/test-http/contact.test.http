@@ -1,0 +1,23 @@
+@baseUrl = http://100.78.13.124:3001
+
+### Test contact valide
+POST {{baseUrl}}/api/contact
+Content-Type: application/json
+
+{
+  "name": "Jean Dupont",
+  "email": "jean@exemple.fr",
+  "subject": "Création d'un site vitrine",
+  "initialMessage": "Bonjour, je souhaite créer un site vitrine pour mon entreprise."
+}
+
+### Test validation — message trop court
+POST {{baseUrl}}/api/contact
+Content-Type: application/json
+
+{
+  "name": "J",
+  "email": "pasunemail",
+  "subject": "Test",
+  "initialMessage": "Trop court"
+}

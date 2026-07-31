@@ -1,0 +1,10 @@
+@baseUrl = http://100.78.13.124:3001
+
+### Liste des projets
+GET {{baseUrl}}/api/projects
+
+### Projet par ID (remplace l'uuid)
+GET {{baseUrl}}/api/projects/00000000-0000-0000-0000-000000000000
+
+### Liste des services
+GET {{baseUrl}}/api/services

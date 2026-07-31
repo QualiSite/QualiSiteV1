@@ -1,0 +1,25 @@
+:root {
+  --cream:        #FFFAF6;
+  --ink:          #1C0F06;
+  --brown:        #4A3428;
+  --muted:        #856655;
+  --orange:       #D4500A;
+  --orange-bright:#FF6B35;
+  --orange-dark:  #B8440A;   /* hoover */
+  --badge-bg:     #FFE8DE;
+  --badge-border: #FFD0B8;
+  --border:       #EDE0D7;
+  --white:        #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { max-width: 100vw; overflow-x: hidden; }
+
+body {
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+a { text-decoration: none; color: inherit; }

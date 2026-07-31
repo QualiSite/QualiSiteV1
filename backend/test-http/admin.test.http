@@ -1,0 +1,103 @@
+### ─── VARIABLES ──────────────────────────────────────
+# @baseUrl = http://localhost:3001
+# Remplace par ton IP Tailscale si tu testes depuis le téléphone
+@baseUrl = http://100.78.13.124:3001
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZThhNDBkNS1hOGI0LTQxMDQtOTYyMi0zYmUxMTNlZTg4OTYiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODEzMDIyOTIsImV4cCI6MTc4MTMwMzE5MiwiYXVkIjoiYWNjZXNzIn0.I6vLk2xVg37wgs3l_vdItXyQOjuw2o9VRKU8AiGNdPM
+
+### ─── 0. LOGIN ADMIN ─────────────────────────────────
+# Lance cette requête en premier, copie le accessToken
+# et colle-le dans @token ci-dessus
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "deborah@qualisite.fr",
+  "password": "Admin1234"
+}
+
+### ─── PROJECTS ───────────────────────────────────────
+
+### 1. GET tous les projets
+GET {{baseUrl}}/api/admin/projects
+Authorization: Bearer {{token}}
+
+### 2. POST créer un projet
+POST {{baseUrl}}/api/admin/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Projet Test Admin",
+  "summary": "Un projet créé via les tests HTTP",
+  "year": 2026
+}
+
+### 3. PATCH modifier un projet
+# Remplace {id} par l'id retourné au step 2
+PATCH {{baseUrl}}/api/admin/projects/{id}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Projet Test Admin — modifié"
+}
+
+### 4. PATCH publier/dépublier un projet
+PATCH {{baseUrl}}/api/admin/projects/{id}/publish
+Authorization: Bearer {{token}}
+
+### 5. DELETE supprimer un projet (soft delete)
+DELETE {{baseUrl}}/api/admin/projects/{id}
+Authorization: Bearer {{token}}
+
+### ─── SERVICES ───────────────────────────────────────
+
+### 6. GET tous les services
+GET {{baseUrl}}/api/admin/services
+Authorization: Bearer {{token}}
+
+### 7. POST créer un service
+POST {{baseUrl}}/api/admin/services
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Service Test",
+  "description": "Description du service test",
+  "price": 999,
+  "order": 4
+}
+
+### 8. PATCH modifier un service
+# Remplace {id} par l'id retourné au step 7
+PATCH {{baseUrl}}/api/admin/services/{id}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "price": 1500
+}
+
+### 9. DELETE supprimer un service
+DELETE {{baseUrl}}/api/admin/services/{id}
+Authorization: Bearer {{token}}
+
+### ─── CONTACTS ───────────────────────────────────────
+
+### 10. GET tous les contacts
+GET {{baseUrl}}/api/admin/contacts
+Authorization: Bearer {{token}}
+
+### 11. GET un contact par id
+# Remplace {id} par un id existant
+GET {{baseUrl}}/api/admin/contacts/{id}
+Authorization: Bearer {{token}}
+
+### 12. PATCH changer le statut d'un contact
+PATCH {{baseUrl}}/api/admin/contacts/{id}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "TRAITE"
+}

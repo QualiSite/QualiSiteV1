@@ -1,0 +1,28 @@
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+  background: var(--bleu-pale);
+}
+
+.stat {
+  text-align: center;
+}
+
+.number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--orange);
+}
+
+.label {
+  color: var(--bleu);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

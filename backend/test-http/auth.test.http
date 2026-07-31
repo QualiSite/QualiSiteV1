@@ -1,0 +1,79 @@
+@baseUrl = http://100.78.13.124:3001
+
+### Register — valide
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "d.franchet@gmail.com",
+    "password": "Test1234!",
+    "confirmPassword": "Test1234!"
+}
+
+###
+
+### Register — email déjà utilisé
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "client@test.fr",
+    "password": "Test1234!",
+    "confirmPassword": "Test1234!"
+}
+
+###
+
+### Register — mots de passe différents
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "autre@test.fr",
+    "password": "Test1234!",
+    "confirmPassword": "Mauvais!"
+}
+
+###
+
+### Register — email invalide
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "email": "pas-un-email",
+    "password": "Test1234!",
+    "confirmPassword": "Test1234!"
+}
+
+###
+
+### Login — avant vérification email (doit échouer)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "client@test.fr",
+    "password": "Test1234!"
+}
+
+###
+
+### Login — mauvais mot de passe
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "client@test.fr",
+    "password": "MauvaisMotDePasse!"
+}
+
+###
+
+### Me — sans token (doit échouer)
+GET {{baseUrl}}/auth/me
+
+###
+
+### Logout — sans token (doit échouer)
+POST {{baseUrl}}/auth/logout

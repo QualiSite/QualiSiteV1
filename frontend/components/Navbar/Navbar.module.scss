@@ -1,0 +1,75 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 72px;
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  position: relative;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.quali { color: var(--orange); }
+.site  { color: var(--ink); }
+.logo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 54px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--orange-bright);
+}
+
+.nav { display: flex; gap: 2.5rem; }
+.nav a {
+  color: var(--brown);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.nav a:hover { color: var(--orange); }
+
+.cta {
+  background: var(--orange);
+  color: var(--white);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.7rem 1.4rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.cta:hover { background: var(--orange-dark); }
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.adminLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  &:hover { opacity: 1; color: var(--ink); }
+}
