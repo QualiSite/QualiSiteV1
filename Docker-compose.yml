@@ -38,8 +38,10 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-qualisite}
       - ALLOWED_ORIGINS=http://localhost:3000
+    volumes:
+      - backend_uploads_dev:/app/uploads
     depends_on:
       - db
     profiles: ["dev"]
@@ -85,8 +87,10 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/qualisite
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-qualisite}
       - ALLOWED_ORIGINS=https://qualisite.alithiel31.dev
+    volumes:
+      - backend_uploads_prod:/app/uploads
     depends_on:
       - db
     profiles: ["prod"]
@@ -97,13 +101,17 @@ services:
     image: postgres:16-alpine
     ports:
       - "5435:5432"
+    env_file:
+      - ./backend/.env
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=qualisite
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-qualisite}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes:
   postgres_data:
+  backend_uploads_dev:
+  backend_uploads_prod:

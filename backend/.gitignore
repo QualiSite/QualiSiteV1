@@ -4,3 +4,8 @@ dist
 .env
 
 /generated/prisma
+
+# Fichiers uploadés par les admins — contenu d'exécution, persisté via
+# le volume Docker "backend_uploads_*", jamais commité.
+/uploads/*
+!/uploads/.gitkeep

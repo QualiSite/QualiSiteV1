@@ -66,6 +66,9 @@ docker compose up --build -d
 | `PORT` | ❌ | `3001` | Port du backend |
 | `SEED_ADMIN_EMAIL` | ❌ | `admin@qualisite.fr` | Email du compte admin créé par `npm run db:seed` |
 | `SEED_ADMIN_PASSWORD` | ❌ | `ChangeMe1234!` | Mot de passe du compte admin créé par `npm run db:seed` |
+| `POSTGRES_USER` | ❌ | `postgres` | Utilisateur PostgreSQL (service `db` de Docker-compose.yml) |
+| `POSTGRES_PASSWORD` | ❌ | `password` | Mot de passe PostgreSQL — **à changer en production** |
+| `POSTGRES_DB` | ❌ | `qualisite` | Nom de la base PostgreSQL |
 
 ---
 
@@ -174,6 +177,20 @@ Internet → Cloudflare Tunnel → qualisite-frontend (port 3000)
 # Rebuilder et relancer sur le RPi
 docker compose up --build -d
 ```
+
+> ⚠️ **Migration ponctuelle (une seule fois) — stockage des uploads**
+> Les images uploadées sont désormais persistées via un volume Docker
+> nommé (`backend_uploads_prod`) plutôt que d'être embarquées dans
+> l'image ou committées dans le dépôt. Avant de redéployer cette
+> version, sauvegardez le contenu actuel de `/app/uploads` du conteneur
+> `backend-prod` en cours d'exécution puis copiez-le dans le nouveau
+> volume, sous peine de perdre les images déjà en ligne :
+>
+> ```bash
+> docker cp $(docker compose ps -q backend-prod):/app/uploads /tmp/uploads-backup
+> docker compose up --build -d
+> docker cp /tmp/uploads-backup/. $(docker compose ps -q backend-prod):/app/uploads
+> ```
 
 ### Tunnel Cloudflare (`~/.cloudflared/config.yml`)
 
