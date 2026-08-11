@@ -6,12 +6,12 @@ import {
   deleteProject,
   togglePublish,
 } from '../../controllers/admin/project.admin.controller.js';
-import { verifyToken, checkRoles } from '../../middlewares/auth.middleware.js';
+import { checkRoles } from '../../middlewares/auth.middleware.js';
 import { UserRole } from '../../../generated/prisma/client.js';
 
 const projectAdminRouter = Router();
 
-projectAdminRouter.use(verifyToken, checkRoles([UserRole.ADMIN]));
+projectAdminRouter.use(checkRoles([UserRole.ADMIN]));
 
 projectAdminRouter.get('/', getAdminProjects);
 projectAdminRouter.post('/', createProject);

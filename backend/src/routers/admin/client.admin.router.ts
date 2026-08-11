@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyToken, checkRoles } from '../../middlewares/auth.middleware.js';
+import { checkRoles } from '../../middlewares/auth.middleware.js';
 import { UserRole } from '../../../generated/prisma/client.js';
 import {
   getAdminClients,
@@ -11,7 +11,7 @@ import {
 
 const clientAdminRouter = Router();
 
-clientAdminRouter.use(verifyToken, checkRoles([UserRole.ADMIN]));
+clientAdminRouter.use(checkRoles([UserRole.ADMIN]));
 
 clientAdminRouter.get('/', getAdminClients);
 clientAdminRouter.get('/:id', getAdminClientById);

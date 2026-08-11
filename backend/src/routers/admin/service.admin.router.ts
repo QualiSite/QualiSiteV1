@@ -6,12 +6,12 @@ import {
   deleteService,
 } from '../../controllers/admin/service.admin.controller.js';
 
-import { verifyToken, checkRoles } from '../../middlewares/auth.middleware.js';
+import { checkRoles } from '../../middlewares/auth.middleware.js';
 import { UserRole } from '../../../generated/prisma/client.js';
 
 const serviceAdminRouter = Router();
 
-serviceAdminRouter.use(verifyToken, checkRoles([UserRole.ADMIN]));
+serviceAdminRouter.use(checkRoles([UserRole.ADMIN]));
 
 serviceAdminRouter.get('/', getAdminServices);
 serviceAdminRouter.post('/', createService);

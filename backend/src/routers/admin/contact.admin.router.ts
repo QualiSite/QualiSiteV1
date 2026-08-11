@@ -6,12 +6,12 @@ import {
   replyToContact,
   deleteContact,
 } from '../../controllers/admin/contact.admin.controller.js';
-import { verifyToken, checkRoles } from '../../middlewares/auth.middleware.js';
+import { checkRoles } from '../../middlewares/auth.middleware.js';
 import { UserRole } from '../../../generated/prisma/client.js';
 
 const contactAdminRouter = Router();
 
-contactAdminRouter.use(verifyToken, checkRoles([UserRole.ADMIN]));
+contactAdminRouter.use(checkRoles([UserRole.ADMIN]));
 
 contactAdminRouter.get('/', getAdminContacts);
 contactAdminRouter.get('/:id', getAdminContactById);
