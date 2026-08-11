@@ -3,7 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
-  allowedDevOrigins: ["caesura", "100.109.50.124"],
+  // Hôtes supplémentaires autorisés à requêter le serveur de dev Next.js
+  // (ex: accès via un hostname/IP local). Vide par défaut ; à définir
+  // via NEXT_DEV_ALLOWED_ORIGINS="host1,host2" selon la machine de dev.
+  allowedDevOrigins: process.env.NEXT_DEV_ALLOWED_ORIGINS?.split(",") ?? [],
   images: {
     remotePatterns: [
       { protocol: "http", hostname: "localhost" },

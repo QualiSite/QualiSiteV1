@@ -3,6 +3,7 @@ import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 import type { Request } from 'express';
+import { BadRequestError } from './errors.js';
 
 const UPLOADS_DIR = path.resolve('uploads');
 
@@ -30,10 +31,16 @@ export async function processAndSaveImage(buffer: Buffer, filename: string): Pro
   const outputFilename = `${filename}.webp`;
   const outputPath = path.join(UPLOADS_DIR, outputFilename);
 
-  await sharp(buffer)
-    .resize({ width: 1200, withoutEnlargement: true })
-    .webp({ quality: 80 })
-    .toFile(outputPath);
+  try {
+    await sharp(buffer)
+      .resize({ width: 1200, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toFile(outputPath);
+  } catch {
+    // Le contenu réel du fichier ne correspond pas à une image valide
+    // (le MIME type déclaré par le client n'est qu'indicatif).
+    throw new BadRequestError('Fichier image invalide ou corrompu.');
+  }
 
   return outputFilename;
 }

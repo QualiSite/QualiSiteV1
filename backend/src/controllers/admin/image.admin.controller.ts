@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 import { prisma } from '../../models/client.js';
-import { NotFoundError } from '../../lib/errors.js';
+import { BadRequestError, NotFoundError } from '../../lib/errors.js';
 import { processAndSaveImage } from '../../lib/upload.js';
 import { config } from '../../config.js';
 import path from 'path';
@@ -19,7 +19,7 @@ export async function uploadProjectImage(req: Request, res: Response) {
   const project = await prisma.project.findFirst({ where: { id, deletedAt: null } });
   if (!project) throw new NotFoundError('Projet introuvable');
 
-  if (!req.file) throw new Error('Aucun fichier reçu');
+  if (!req.file) throw new BadRequestError('Aucun fichier reçu');
 
   const filename = randomUUID();
   const savedFile = await processAndSaveImage(req.file.buffer, filename);

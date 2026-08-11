@@ -7,6 +7,8 @@ import rateLimit from 'express-rate-limit';
 
 import { globalErrorHandler } from './middlewares/global-error-handler.js';
 import { config } from './config.js';
+import { prisma } from './models/client.js';
+import logger from './lib/logger.js';
 
 // ── Routers ───────────────────────────────────────
 // Sprint 1
@@ -92,6 +94,18 @@ app.use('/api/admin/clients', clientAdminRouter);
 // ── Health check ──────────────────────────────────
 app.get('/', (_req, res) => {
   res.json({ message: 'QualiSite API — opérationnelle' });
+});
+
+// Vérifie aussi la connectivité à la base de données (utilisé par le
+// HEALTHCHECK Docker et les futures sondes de liveness/readiness).
+app.get('/health', async (_req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: 'ok' });
+  } catch (error) {
+    logger.error('Health check failed', error);
+    res.status(503).json({ status: 'error' });
+  }
 });
 
 // ── Gestionnaire d'erreurs global ─────────────────

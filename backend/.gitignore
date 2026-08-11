@@ -1,5 +1,12 @@
 node_modules
+dist
+coverage
 # Keep environment variables out of version control
 .env
 
 /generated/prisma
+
+# Fichiers uploadés par les admins — contenu d'exécution, persisté via
+# le volume Docker "backend_uploads_*", jamais commité.
+/uploads/*
+!/uploads/.gitkeep

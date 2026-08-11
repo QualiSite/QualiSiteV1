@@ -21,11 +21,17 @@ async function main() {
   console.log('🧹 Tables nettoyées');
 
   // ── 2. Admin ──────────────────────────────────────
-  const passwordHash = await argon2.hash('Admin1234');
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Le seeding ne doit pas être exécuté en production');
+  }
+
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? 'admin@qualisite.fr';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'ChangeMe1234!';
+  const passwordHash = await argon2.hash(adminPassword);
 
   const admin = await prisma.user.create({
     data: {
-      email: 'deborah@qualisite.fr',
+      email: adminEmail,
       passwordHash,
       role: 'ADMIN',
       isActive: true,

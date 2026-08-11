@@ -7,7 +7,7 @@ import { prisma } from '../models/client.js';
 import { UserRole } from '../../generated/prisma/client.js';
 
 import { config } from '../config.js';
-import { generateAuthTokens } from '../lib/token.js';
+import { generateAuthTokens, hashToken } from '../lib/token.js';
 import { sendVerificationEmail } from '../lib/mailer.js';
 import { BadRequestError, ConflictError, UnauthorizedError } from '../lib/errors.js';
 import type { User } from '../../generated/prisma/client.js';
@@ -27,7 +27,7 @@ function setRefreshTokenCookie(res: Response, token: string, expiresIn: number) 
 async function rotateRefreshToken(user: User, token: string) {
   await prisma.refreshToken.deleteMany({ where: { userId: user.id } });
   await prisma.refreshToken.create({
-    data: { token, userId: user.id },
+    data: { token: hashToken(token), userId: user.id },
   });
 }
 
@@ -145,7 +145,7 @@ export async function refreshAccessToken(req: Request, res: Response) {
   }
 
   const stored = await prisma.refreshToken.findUnique({
-    where: { token: receivedToken },
+    where: { token: hashToken(receivedToken) },
     include: { user: true },
   });
 
