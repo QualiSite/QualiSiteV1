@@ -70,10 +70,11 @@ model Project {
   updatedAt   DateTime  @updatedAt @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
 
-  user     User             @relation(fields: [createdBy], references: [id])
+  user     User             @relation(fields: [createdBy], references: [id], onDelete: Restrict)
   images   ProjectImage[]
   services ProjectService[]
 
+  @@index([isPublished, deletedAt])
   @@map("project")
 }
 
@@ -92,6 +93,7 @@ model Service {
   requestedBy  RequestService[]
   invoiceItems InvoiceItem[]
 
+  @@index([isActive, deletedAt])
   @@map("service")
 }
 
@@ -108,6 +110,7 @@ model Contact {
   messages          Message[]
   requestedServices RequestService[]
 
+  @@index([deletedAt, createdAt])
   @@map("contact")
 }
 
@@ -149,9 +152,10 @@ model Client {
   createdAt   DateTime  @default(now()) @map("created_at")
   deletedAt   DateTime? @map("deleted_at")
 
-  user     User      @relation(fields: [userId], references: [id])
+  user     User      @relation(fields: [userId], references: [id], onDelete: Restrict)
   invoices Invoice[]
 
+  @@index([deletedAt, createdAt])
   @@map("client")
 }
 
@@ -164,7 +168,7 @@ model Invoice {
   createdAt     DateTime      @default(now()) @map("created_at")
   deletedAt     DateTime?     @map("deleted_at")
 
-  client       Client        @relation(fields: [clientId], references: [id])
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Restrict)
   invoiceItems InvoiceItem[]
 
   @@map("invoice")
@@ -179,8 +183,8 @@ model InvoiceItem {
   subtotal  Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now()) @map("created_at")
 
-  invoice Invoice @relation(fields: [invoiceId], references: [id])
-  service Service @relation(fields: [serviceId], references: [id])
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Restrict)
 
   @@map("invoice_item")
 }
