@@ -9,7 +9,7 @@ export function globalErrorHandler(error: Error, req: Request, res: Response, ne
   const stackTraceObject = config.isProd ? {} : { stack: error.stack };
 
   if (error instanceof z.ZodError) {
-    console.info('ZodError', error);
+    logger.info('ZodError', error);
     return res.status(400).json({
       status: 400,
       error: z.prettifyError(error),
@@ -18,7 +18,7 @@ export function globalErrorHandler(error: Error, req: Request, res: Response, ne
   }
 
   if (error instanceof HttpClientError) {
-    console.info('HttpClientError', error);
+    logger.info('HttpClientError', error);
     return res.status(error.status).json({
       status: error.status,
       error: error.message,

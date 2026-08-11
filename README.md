@@ -64,6 +64,8 @@ docker compose up --build -d
 | `UPLOAD_URL` | ❌ | `http://localhost:3001/uploads` | URL publique des fichiers uploadés |
 | `ALLOWED_ORIGINS` | ❌ | `http://localhost:3000` | Origines autorisées (CORS) |
 | `PORT` | ❌ | `3001` | Port du backend |
+| `SEED_ADMIN_EMAIL` | ❌ | `admin@qualisite.fr` | Email du compte admin créé par `npm run db:seed` |
+| `SEED_ADMIN_PASSWORD` | ❌ | `ChangeMe1234!` | Mot de passe du compte admin créé par `npm run db:seed` |
 
 ---
 

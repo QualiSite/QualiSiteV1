@@ -16,15 +16,14 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
 // ── Vérifie que le rôle est autorisé ─────────────
 export function checkRoles(roles: UserRole[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const token = extractAccessToken(req);
-    const { userId, role } = verifyAndDecodeJWT(token);
-
-    if (!roles.includes(role as UserRole)) {
-      throw new ForbiddenError(`Le rôle ${role} n'a pas la permission d'accéder à cette ressource`);
-    }
-
-    req.user = { userId, role: role as UserRole };
-    next();
+    verifyToken(req, res, () => {
+      if (!roles.includes(req.user!.role)) {
+        throw new ForbiddenError(
+          `Le rôle ${req.user!.role} n'a pas la permission d'accéder à cette ressource`
+        );
+      }
+      next();
+    });
   };
 }
 
